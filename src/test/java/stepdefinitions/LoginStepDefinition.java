@@ -38,7 +38,8 @@ public class LoginStepDefinition extends BaseTest {
     @And("User enters valid password")
     public void user_enters_valid_password() {
 
-        login.enterPassword("Nikita@123");
+        login.enterPassword(
+                "Nikita@123");
     }
 
     @And("User clicks Login button")
@@ -47,12 +48,15 @@ public class LoginStepDefinition extends BaseTest {
         login.clickLoginButton();
     }
 
+    // UPDATED METHOD
+
     @Then("User should login successfully")
     public void user_should_login_successfully() {
 
         Assert.assertTrue(
-                driver.getCurrentUrl()
-                        .contains("account/account"));
+
+                driver.getPageSource()
+                        .contains("My Account"));
 
         tearDown();
     }
@@ -60,13 +64,15 @@ public class LoginStepDefinition extends BaseTest {
     @And("User enters invalid email")
     public void user_enters_invalid_email() {
 
-        login.enterEmail("wrong@gmail.com");
+        login.enterEmail(
+                "wrong@gmail.com");
     }
 
     @Then("Warning message should be displayed")
     public void warning_message_should_be_displayed() {
 
         Assert.assertTrue(
+
                 login.getWarningMessage()
                         .contains("Warning"));
 

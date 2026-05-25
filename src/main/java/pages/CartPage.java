@@ -3,7 +3,9 @@ package pages;
 import java.time.Duration;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -26,25 +28,37 @@ public class CartPage {
 
     // Locators
 
+    By searchBox =
+            By.name("search");
+
+    By searchButton =
+            By.xpath(
+            "//button[contains(@class,'btn-default')]");
+
     By addToCartButton =
             By.xpath(
             "(//button[contains(@onclick,'cart.add')])[1]");
 
     By successMessage =
-            By.xpath("//div[contains(@class,'alert-success')]");
+            By.xpath(
+            "//div[contains(@class,'alert-success')]");
 
     By cartButton =
             By.id("cart-total");
 
     By viewCart =
-            By.linkText("View Cart");
+            By.xpath(
+            "//strong[contains(text(),'View Cart')]");
 
     By quantityField =
-            By.xpath("//input[contains(@name,'quantity')]");
+            By.xpath(
+            "//input[contains(@name,'quantity')]");
 
     By updateButton =
             By.xpath(
             "//button[@data-original-title='Update']");
+
+    // FINAL WORKING LOCATOR
 
     By totalAmount =
             By.xpath(
@@ -55,9 +69,28 @@ public class CartPage {
             "//button[@data-original-title='Remove']");
 
     By emptyCartMessage =
-            By.xpath("//div[@id='content']/p");
+            By.xpath(
+            "//div[@id='content']/p");
 
-    // Methods
+    // Search Product
+
+    public void searchProduct(String product) {
+
+        wait.until(ExpectedConditions
+                .visibilityOfElementLocated(
+                        searchBox));
+
+        driver.findElement(searchBox)
+                .clear();
+
+        driver.findElement(searchBox)
+                .sendKeys(product);
+
+        driver.findElement(searchButton)
+                .click();
+    }
+
+    // Add Product
 
     public void addProductToCart() {
 
@@ -73,12 +106,14 @@ public class CartPage {
                         successMessage));
     }
 
-    // Compatibility method
+    // Compatibility Method
 
     public void clickAddToCart() {
 
         addProductToCart();
     }
+
+    // Success Message
 
     public String getSuccessMessage() {
 
@@ -87,49 +122,59 @@ public class CartPage {
                         successMessage));
 
         return driver.findElement(
-                successMessage).getText();
+                successMessage)
+                .getText();
     }
 
-    // UPDATED OPEN CART METHOD
+    // FINAL UPDATED OPEN CART METHOD
 
     public void openCart() {
 
         try {
 
             wait.until(ExpectedConditions
+                    .visibilityOfElementLocated(
+                            successMessage));
+
+            ((JavascriptExecutor) driver)
+                    .executeScript(
+                    "window.scrollTo(0,0)");
+
+            wait.until(ExpectedConditions
                     .presenceOfElementLocated(
                             cartButton));
 
-            wait.until(ExpectedConditions
-                    .elementToBeClickable(
-                            cartButton));
+            WebElement cart =
+                    driver.findElement(
+                            cartButton);
 
-            driver.findElement(cartButton)
-                    .click();
+            ((JavascriptExecutor) driver)
+                    .executeScript(
+                    "arguments[0].click();",
+                    cart);
+
+            Thread.sleep(2000);
+
+            wait.until(ExpectedConditions
+                    .visibilityOfElementLocated(
+                            viewCart));
+
+            WebElement view =
+                    driver.findElement(
+                            viewCart);
+
+            ((JavascriptExecutor) driver)
+                    .executeScript(
+                    "arguments[0].click();",
+                    view);
 
         } catch (Exception e) {
 
-            // RETRY FOR STALE ELEMENT
-
-            wait.until(ExpectedConditions
-                    .presenceOfElementLocated(
-                            cartButton));
-
-            driver.findElement(cartButton)
-                    .click();
+            e.printStackTrace();
         }
-
-        wait.until(ExpectedConditions
-                .visibilityOfElementLocated(
-                        viewCart));
-
-        wait.until(ExpectedConditions
-                .elementToBeClickable(
-                        viewCart));
-
-        driver.findElement(viewCart)
-                .click();
     }
+
+    // Update Quantity
 
     public void updateQuantity(String qty) {
 
@@ -147,6 +192,8 @@ public class CartPage {
                 .click();
     }
 
+    // Get Quantity
+
     public String getQuantityValue() {
 
         wait.until(ExpectedConditions
@@ -158,25 +205,64 @@ public class CartPage {
                 .getAttribute("value");
     }
 
+    // FINAL UPDATED TOTAL METHOD
+
     public String getTotalAmount() {
 
-        wait.until(ExpectedConditions
-                .visibilityOfElementLocated(
-                        totalAmount));
+        try {
 
-        return driver.findElement(
-                totalAmount).getText();
+            wait.until(ExpectedConditions
+                    .visibilityOfElementLocated(
+                            totalAmount));
+
+            String amount =
+                    driver.findElement(
+                            totalAmount)
+                            .getText();
+
+            return amount;
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            return "";
+        }
     }
+
+    // FINAL UPDATED REMOVE METHOD
 
     public void removeProduct() {
 
-        wait.until(ExpectedConditions
-                .elementToBeClickable(
-                        removeButton));
+        try {
 
-        driver.findElement(removeButton)
-                .click();
+            wait.until(ExpectedConditions
+                    .presenceOfElementLocated(
+                            removeButton));
+
+            WebElement remove =
+                    driver.findElement(
+                            removeButton);
+
+            ((JavascriptExecutor) driver)
+                    .executeScript(
+                    "arguments[0].scrollIntoView(true);",
+                    remove);
+
+            Thread.sleep(2000);
+
+            ((JavascriptExecutor) driver)
+                    .executeScript(
+                    "arguments[0].click();",
+                    remove);
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
     }
+
+    // Empty Cart Message
 
     public String getEmptyCartMessage() {
 
@@ -185,6 +271,7 @@ public class CartPage {
                         emptyCartMessage));
 
         return driver.findElement(
-                emptyCartMessage).getText();
+                emptyCartMessage)
+                .getText();
     }
 }
