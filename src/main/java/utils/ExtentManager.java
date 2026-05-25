@@ -18,16 +18,14 @@ public class ExtentManager {
                 new ExtentSparkReporter(path);
 
         reporter.config()
-                .setReportName("TutorialsNinja Automation");
+                .setReportName("Automation Framework");
 
         reporter.config()
-                .setDocumentTitle("Automation Test Results");
+                .setDocumentTitle("Test Results");
 
         extent = new ExtentReports();
 
         extent.attachReporter(reporter);
-
-        extent.setSystemInfo("Tester", "Nikita Jadhav");
 
         return extent;
     }

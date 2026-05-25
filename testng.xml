@@ -1,6 +1,12 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 
-<suite name="TutorialsNinja Suite">
+<suite name="Automation Framework">
+
+    <listeners>
+
+        <listener class-name="base.TestListener"/>
+
+    </listeners>
 
     <test name="All Tests">
 

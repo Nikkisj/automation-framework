@@ -4,19 +4,27 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import base.BaseTest;
+
 import pages.CartPage;
+import pages.SearchPage;
 
 public class CartTest extends BaseTest {
 
     // 1. Add product to cart
 
     @Test(priority = 1)
+
     public void addProductToCart() {
+
+        SearchPage search =
+                new SearchPage(driver);
 
         CartPage cart =
                 new CartPage(driver);
 
-        cart.searchProduct("iPhone");
+        search.enterProductName("iPhone");
+
+        search.clickSearchButton();
 
         cart.clickAddToCart();
 
@@ -28,12 +36,18 @@ public class CartTest extends BaseTest {
     // 2. Update product quantity
 
     @Test(priority = 2)
+
     public void updateProductQuantity() {
+
+        SearchPage search =
+                new SearchPage(driver);
 
         CartPage cart =
                 new CartPage(driver);
 
-        cart.searchProduct("iPhone");
+        search.enterProductName("iPhone");
+
+        search.clickSearchButton();
 
         cart.clickAddToCart();
 
@@ -49,12 +63,18 @@ public class CartTest extends BaseTest {
     // 3. Remove product from cart
 
     @Test(priority = 3)
+
     public void removeProductFromCart() {
+
+        SearchPage search =
+                new SearchPage(driver);
 
         CartPage cart =
                 new CartPage(driver);
 
-        cart.searchProduct("iPhone");
+        search.enterProductName("iPhone");
+
+        search.clickSearchButton();
 
         cart.clickAddToCart();
 
@@ -70,12 +90,18 @@ public class CartTest extends BaseTest {
     // 4. Verify total amount
 
     @Test(priority = 4)
+
     public void verifyTotalAmount() {
+
+        SearchPage search =
+                new SearchPage(driver);
 
         CartPage cart =
                 new CartPage(driver);
 
-        cart.searchProduct("iPhone");
+        search.enterProductName("iPhone");
+
+        search.clickSearchButton();
 
         cart.clickAddToCart();
 
@@ -89,12 +115,18 @@ public class CartTest extends BaseTest {
     // 5. Verify empty cart message
 
     @Test(priority = 5)
+
     public void verifyEmptyCartMessage() {
+
+        SearchPage search =
+                new SearchPage(driver);
 
         CartPage cart =
                 new CartPage(driver);
 
-        cart.searchProduct("iPhone");
+        search.enterProductName("iPhone");
+
+        search.clickSearchButton();
 
         cart.clickAddToCart();
 

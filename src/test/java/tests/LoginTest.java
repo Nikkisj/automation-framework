@@ -4,7 +4,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import base.BaseTest;
-
 import pages.LoginPage;
 
 public class LoginTest extends BaseTest {
@@ -22,8 +21,6 @@ public class LoginTest extends BaseTest {
 
         login.clickLogin();
 
-        // USE REGISTERED ACCOUNT
-
         login.enterEmail(
                 "nikitajadhav123@gmail.com");
 
@@ -32,11 +29,10 @@ public class LoginTest extends BaseTest {
 
         login.clickLoginButton();
 
-        // UPDATED ASSERTION
+        // UPDATED STABLE ASSERTION
 
         Assert.assertTrue(
-                driver.getCurrentUrl()
-                        .contains("account/account"));
+                login.isMyAccountDisplayed());
     }
 
     // 2. Login with invalid email
@@ -91,7 +87,7 @@ public class LoginTest extends BaseTest {
                         .contains("Warning"));
     }
 
-    // 4. Blank credentials
+    // 4. Login with blank credentials
 
     @Test(priority = 4)
 

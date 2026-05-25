@@ -8,17 +8,26 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 import pages.CartPage;
+import pages.SearchPage;
 
 public class CartStepDefinition extends BaseTest {
 
     CartPage cart;
 
+    SearchPage search;
+
     @When("User adds product to cart")
     public void user_adds_product_to_cart() {
 
-        cart = new CartPage(driver);
+        search =
+                new SearchPage(driver);
 
-        cart.searchProduct("iPhone");
+        cart =
+                new CartPage(driver);
+
+        search.enterProductName("iPhone");
+
+        search.clickSearchButton();
 
         cart.addProductToCart();
     }

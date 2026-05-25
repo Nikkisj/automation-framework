@@ -8,7 +8,6 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 
 import utils.ExtentManager;
-import utils.ScreenshotUtil;
 
 public class TestListener implements ITestListener {
 
@@ -34,13 +33,6 @@ public class TestListener implements ITestListener {
     public void onTestFailure(ITestResult result) {
 
         test.fail(result.getThrowable());
-
-        String screenshotPath =
-                ScreenshotUtil.captureScreenshot(
-                        BaseTest.driver,
-                        result.getMethod().getMethodName());
-
-        test.addScreenCaptureFromPath(screenshotPath);
     }
 
     @Override

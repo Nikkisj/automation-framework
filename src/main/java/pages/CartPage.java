@@ -3,9 +3,7 @@ package pages;
 import java.time.Duration;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -13,6 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class CartPage {
 
     WebDriver driver;
+
     WebDriverWait wait;
 
     // Constructor
@@ -22,19 +21,14 @@ public class CartPage {
         this.driver = driver;
 
         wait = new WebDriverWait(driver,
-                Duration.ofSeconds(15));
+                Duration.ofSeconds(20));
     }
 
     // Locators
 
-    By searchBox =
-            By.name("search");
-
-    By searchButton =
-            By.xpath("//button[contains(@class,'btn-default')]");
-
     By addToCartButton =
-            By.xpath("(//span[text()='Add to Cart'])[1]");
+            By.xpath(
+            "(//button[contains(@onclick,'cart.add')])[1]");
 
     By successMessage =
             By.xpath("//div[contains(@class,'alert-success')]");
@@ -43,200 +37,154 @@ public class CartPage {
             By.id("cart-total");
 
     By viewCart =
-            By.xpath("//strong[contains(text(),'View Cart')]");
+            By.linkText("View Cart");
 
-    By productName =
-            By.linkText("iPhone");
-
-    By totalAmount =
-            By.xpath("(//td[@class='text-right'])[last()]");
-
-    By quantityBox =
+    By quantityField =
             By.xpath("//input[contains(@name,'quantity')]");
 
     By updateButton =
-            By.xpath("//button[@data-original-title='Update']");
+            By.xpath(
+            "//button[@data-original-title='Update']");
+
+    By totalAmount =
+            By.xpath(
+            "(//td[@class='text-right'])[last()]");
 
     By removeButton =
-            By.xpath("//button[contains(@data-original-title,'Remove')]");
+            By.xpath(
+            "//button[@data-original-title='Remove']");
 
     By emptyCartMessage =
-            By.xpath("//p[contains(text(),'Your shopping cart is empty')]");
+            By.xpath("//div[@id='content']/p");
 
-    // Search Product
-
-    public void searchProduct(String product) {
-
-        wait.until(ExpectedConditions
-                .visibilityOfElementLocated(searchBox));
-
-        driver.findElement(searchBox)
-                .clear();
-
-        driver.findElement(searchBox)
-                .sendKeys(product);
-
-        driver.findElement(searchButton)
-                .click();
-    }
-
-    // Add Product
+    // Methods
 
     public void addProductToCart() {
 
         wait.until(ExpectedConditions
-                .elementToBeClickable(addToCartButton));
+                .elementToBeClickable(
+                        addToCartButton));
 
         driver.findElement(addToCartButton)
                 .click();
 
         wait.until(ExpectedConditions
-                .visibilityOfElementLocated(successMessage));
+                .visibilityOfElementLocated(
+                        successMessage));
     }
 
-    // Old Method Support
+    // Compatibility method
 
     public void clickAddToCart() {
 
         addProductToCart();
     }
 
-    // Success Message
-
     public String getSuccessMessage() {
 
         wait.until(ExpectedConditions
-                .visibilityOfElementLocated(successMessage));
+                .visibilityOfElementLocated(
+                        successMessage));
 
-        return driver.findElement(successMessage)
-                .getText();
+        return driver.findElement(
+                successMessage).getText();
     }
 
-    // UPDATED OPEN CART
+    // UPDATED OPEN CART METHOD
 
     public void openCart() {
 
         try {
 
-            Thread.sleep(2000);
+            wait.until(ExpectedConditions
+                    .presenceOfElementLocated(
+                            cartButton));
 
-        } catch (InterruptedException e) {
+            wait.until(ExpectedConditions
+                    .elementToBeClickable(
+                            cartButton));
 
-            e.printStackTrace();
+            driver.findElement(cartButton)
+                    .click();
+
+        } catch (Exception e) {
+
+            // RETRY FOR STALE ELEMENT
+
+            wait.until(ExpectedConditions
+                    .presenceOfElementLocated(
+                            cartButton));
+
+            driver.findElement(cartButton)
+                    .click();
         }
 
         wait.until(ExpectedConditions
-                .presenceOfElementLocated(cartButton));
-
-        WebElement cart =
-                driver.findElement(cartButton);
-
-        ((JavascriptExecutor) driver)
-                .executeScript(
-                        "arguments[0].scrollIntoView(true);",
-                        cart);
-
-        ((JavascriptExecutor) driver)
-                .executeScript(
-                        "arguments[0].click();",
-                        cart);
+                .visibilityOfElementLocated(
+                        viewCart));
 
         wait.until(ExpectedConditions
-                .presenceOfElementLocated(viewCart));
+                .elementToBeClickable(
+                        viewCart));
 
-        WebElement viewCartElement =
-                driver.findElement(viewCart);
-
-        ((JavascriptExecutor) driver)
-                .executeScript(
-                        "arguments[0].click();",
-                        viewCartElement);
+        driver.findElement(viewCart)
+                .click();
     }
-
-    // Verify Product
-
-    public boolean isProductDisplayed() {
-
-        wait.until(ExpectedConditions
-                .visibilityOfElementLocated(productName));
-
-        return driver.findElement(productName)
-                .isDisplayed();
-    }
-
-    // Verify Total
-
-    public boolean isTotalDisplayed() {
-
-        wait.until(ExpectedConditions
-                .presenceOfElementLocated(totalAmount));
-
-        return driver.findElement(totalAmount)
-                .isDisplayed();
-    }
-
-    // Get Total Amount
-
-    public String getTotalAmount() {
-
-        wait.until(ExpectedConditions
-                .presenceOfElementLocated(totalAmount));
-
-        return driver.findElement(totalAmount)
-                .getText();
-    }
-
-    // Quantity Value
-
-    public String getQuantityValue() {
-
-        wait.until(ExpectedConditions
-                .visibilityOfElementLocated(quantityBox));
-
-        return driver.findElement(quantityBox)
-                .getAttribute("value");
-    }
-
-    // Update Quantity
 
     public void updateQuantity(String qty) {
 
         wait.until(ExpectedConditions
-                .visibilityOfElementLocated(quantityBox));
+                .visibilityOfElementLocated(
+                        quantityField));
 
-        WebElement quantity =
-                driver.findElement(quantityBox);
+        driver.findElement(quantityField)
+                .clear();
 
-        quantity.clear();
-
-        quantity.sendKeys(qty);
-
-        wait.until(ExpectedConditions
-                .elementToBeClickable(updateButton));
+        driver.findElement(quantityField)
+                .sendKeys(qty);
 
         driver.findElement(updateButton)
                 .click();
     }
 
-    // Remove Product
+    public String getQuantityValue() {
+
+        wait.until(ExpectedConditions
+                .visibilityOfElementLocated(
+                        quantityField));
+
+        return driver.findElement(
+                quantityField)
+                .getAttribute("value");
+    }
+
+    public String getTotalAmount() {
+
+        wait.until(ExpectedConditions
+                .visibilityOfElementLocated(
+                        totalAmount));
+
+        return driver.findElement(
+                totalAmount).getText();
+    }
 
     public void removeProduct() {
 
         wait.until(ExpectedConditions
-                .elementToBeClickable(removeButton));
+                .elementToBeClickable(
+                        removeButton));
 
         driver.findElement(removeButton)
                 .click();
     }
 
-    // Empty Cart Message
-
     public String getEmptyCartMessage() {
 
         wait.until(ExpectedConditions
-                .visibilityOfElementLocated(emptyCartMessage));
+                .visibilityOfElementLocated(
+                        emptyCartMessage));
 
-        return driver.findElement(emptyCartMessage)
-                .getText();
+        return driver.findElement(
+                emptyCartMessage).getText();
     }
 }

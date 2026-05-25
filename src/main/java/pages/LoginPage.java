@@ -14,28 +14,39 @@ public class LoginPage {
     WebDriverWait wait;
 
     // Constructor
+
     public LoginPage(WebDriver driver) {
 
         this.driver = driver;
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        wait = new WebDriverWait(driver,
+                Duration.ofSeconds(15));
     }
 
     // Locators
 
-    By myAccount = By.xpath("//span[text()='My Account']");
+    By myAccount =
+            By.xpath("(//span[contains(text(),'My Account')])[1]");
 
-    By loginLink = By.linkText("Login");
+    By loginLink =
+            By.linkText("Login");
 
-    By email = By.id("input-email");
+    By email =
+            By.id("input-email");
 
-    By password = By.id("input-password");
+    By password =
+            By.id("input-password");
 
-    By loginBtn = By.xpath("//input[@value='Login']");
+    By loginButton =
+            By.xpath("//input[@value='Login']");
 
-    By warningMsg =
+    By myAccountHeader =
+            By.xpath("//h2[text()='My Account']");
+
+    By warningMessage =
             By.xpath("//div[contains(@class,'alert-danger')]");
 
-    // Actions / Methods
+    // Methods
 
     public void clickMyAccount() {
 
@@ -65,9 +76,6 @@ public class LoginPage {
 
     public void enterPassword(String pwd) {
 
-        wait.until(ExpectedConditions
-                .visibilityOfElementLocated(password));
-
         driver.findElement(password).clear();
 
         driver.findElement(password).sendKeys(pwd);
@@ -75,17 +83,33 @@ public class LoginPage {
 
     public void clickLoginButton() {
 
-        wait.until(ExpectedConditions
-                .elementToBeClickable(loginBtn));
+        driver.findElement(loginButton).click();
+    }
 
-        driver.findElement(loginBtn).click();
+    public boolean isMyAccountDisplayed() {
+
+        try {
+
+            wait.until(ExpectedConditions
+                    .visibilityOfElementLocated(
+                            myAccountHeader));
+
+            return driver.findElement(
+                    myAccountHeader).isDisplayed();
+
+        } catch (Exception e) {
+
+            return false;
+        }
     }
 
     public String getWarningMessage() {
 
         wait.until(ExpectedConditions
-                .visibilityOfElementLocated(warningMsg));
+                .visibilityOfElementLocated(
+                        warningMessage));
 
-        return driver.findElement(warningMsg).getText();
+        return driver.findElement(
+                warningMessage).getText();
     }
 }
