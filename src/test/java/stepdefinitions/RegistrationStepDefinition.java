@@ -45,7 +45,9 @@ public class RegistrationStepDefinition
 
         register.enterConfirmPassword("Nikita@123");
 
-        register.selectPrivacyPolicy();
+        // UPDATED METHOD
+
+        register.clickPrivacyPolicy();
     }
 
     @And("User clicks Continue button")

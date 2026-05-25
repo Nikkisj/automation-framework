@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class RegisterPage {
 
     WebDriver driver;
+
     WebDriverWait wait;
 
     // Constructor
@@ -18,132 +19,156 @@ public class RegisterPage {
     public RegisterPage(WebDriver driver) {
 
         this.driver = driver;
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        wait = new WebDriverWait(driver,
+                Duration.ofSeconds(15));
     }
 
-    // Locators
+    // LOCATORS
 
-    By myAccount = By.xpath("//span[text()='My Account']");
+    By myAccount =
+            By.linkText("My Account");
 
-    By registerLink = By.linkText("Register");
+    By registerOption =
+            By.linkText("Register");
 
-    By firstName = By.id("input-firstname");
+    By firstName =
+            By.id("input-firstname");
 
-    By lastName = By.id("input-lastname");
+    By lastName =
+            By.id("input-lastname");
 
-    By email = By.id("input-email");
+    By email =
+            By.id("input-email");
 
-    By telephone = By.id("input-telephone");
+    By telephone =
+            By.id("input-telephone");
 
-    By password = By.id("input-password");
+    By password =
+            By.id("input-password");
 
-    By confirmPassword = By.id("input-confirm");
+    By confirmPassword =
+            By.id("input-confirm");
 
-    By privacyPolicy = By.name("agree");
+    By privacyPolicy =
+            By.name("agree");
 
-    By continueBtn =
+    By continueButton =
             By.xpath("//input[@value='Continue']");
 
-    By successMsg =
-            By.xpath("//h1[text()='Your Account Has Been Created!']");
+    By successMessage =
+            By.xpath("//div[@id='content']/h1");
 
-    By warningMsg =
+    By warningMessage =
             By.xpath("//div[contains(@class,'alert-danger')]");
 
-    By passwordMismatchMsg =
-            By.xpath("//div[contains(text(),'Password confirmation')]");
+    By passwordMismatchMessage =
+            By.xpath("//div[contains(@class,'text-danger')]");
 
-    // Methods
+    // METHODS
 
     public void clickMyAccount() {
 
         wait.until(ExpectedConditions
-                .elementToBeClickable(myAccount));
+                .elementToBeClickable(
+                        myAccount));
 
-        driver.findElement(myAccount).click();
+        driver.findElement(myAccount)
+                .click();
     }
 
     public void clickRegister() {
 
         wait.until(ExpectedConditions
-                .elementToBeClickable(registerLink));
+                .elementToBeClickable(
+                        registerOption));
 
-        driver.findElement(registerLink).click();
+        driver.findElement(registerOption)
+                .click();
     }
 
     public void enterFirstName(String fname) {
 
-        driver.findElement(firstName).clear();
-
-        driver.findElement(firstName).sendKeys(fname);
+        driver.findElement(firstName)
+                .sendKeys(fname);
     }
 
     public void enterLastName(String lname) {
 
-        driver.findElement(lastName).clear();
-
-        driver.findElement(lastName).sendKeys(lname);
+        driver.findElement(lastName)
+                .sendKeys(lname);
     }
 
     public void enterEmail(String mail) {
 
-        driver.findElement(email).clear();
-
-        driver.findElement(email).sendKeys(mail);
+        driver.findElement(email)
+                .sendKeys(mail);
     }
 
     public void enterTelephone(String phone) {
 
-        driver.findElement(telephone).clear();
-
-        driver.findElement(telephone).sendKeys(phone);
+        driver.findElement(telephone)
+                .sendKeys(phone);
     }
 
     public void enterPassword(String pwd) {
 
-        driver.findElement(password).clear();
-
-        driver.findElement(password).sendKeys(pwd);
+        driver.findElement(password)
+                .sendKeys(pwd);
     }
 
     public void enterConfirmPassword(String cpwd) {
 
-        driver.findElement(confirmPassword).clear();
-
-        driver.findElement(confirmPassword).sendKeys(cpwd);
+        driver.findElement(confirmPassword)
+                .sendKeys(cpwd);
     }
 
-    public void selectPrivacyPolicy() {
+    public void clickPrivacyPolicy() {
 
-        driver.findElement(privacyPolicy).click();
+        driver.findElement(privacyPolicy)
+                .click();
     }
 
     public void clickContinue() {
 
-        driver.findElement(continueBtn).click();
+        wait.until(ExpectedConditions
+                .elementToBeClickable(
+                        continueButton));
+
+        driver.findElement(continueButton)
+                .click();
     }
 
     public String getSuccessMessage() {
 
         wait.until(ExpectedConditions
-                .visibilityOfElementLocated(successMsg));
+                .visibilityOfElementLocated(
+                        successMessage));
 
-        return driver.findElement(successMsg).getText();
+        return driver.findElement(
+                successMessage)
+                .getText();
     }
 
     public String getWarningMessage() {
 
         wait.until(ExpectedConditions
-                .visibilityOfElementLocated(warningMsg));
+                .visibilityOfElementLocated(
+                        warningMessage));
 
-        return driver.findElement(warningMsg).getText();
+        return driver.findElement(
+                warningMessage)
+                .getText();
     }
 
     public String getPasswordMismatchMessage() {
 
         wait.until(ExpectedConditions
-                .visibilityOfElementLocated(passwordMismatchMsg));
+                .visibilityOfElementLocated(
+                        passwordMismatchMessage));
 
-        return driver.findElement(passwordMismatchMsg).getText();
+        return driver.findElement(
+                passwordMismatchMessage)
+                .getText();
     }
 }

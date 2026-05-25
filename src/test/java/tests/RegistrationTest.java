@@ -36,13 +36,16 @@ public class RegistrationTest extends BaseTest {
 
         register.enterConfirmPassword("Nikita@123");
 
-        register.selectPrivacyPolicy();
+        // UPDATED METHOD
+
+        register.clickPrivacyPolicy();
 
         register.clickContinue();
 
         Assert.assertTrue(
                 register.getSuccessMessage()
-                        .contains("Your Account Has Been Created"));
+                        .contains(
+                                "Your Account Has Been Created"));
     }
 
     // 2. Register with existing email
@@ -61,7 +64,8 @@ public class RegistrationTest extends BaseTest {
 
         register.enterLastName("Jadhav");
 
-        register.enterEmail("nikitajadhav123@gmail.com");
+        register.enterEmail(
+                "nikitajadhav123@gmail.com");
 
         register.enterTelephone("9876543210");
 
@@ -69,7 +73,7 @@ public class RegistrationTest extends BaseTest {
 
         register.enterConfirmPassword("Nikita@123");
 
-        register.selectPrivacyPolicy();
+        register.clickPrivacyPolicy();
 
         register.clickContinue();
 
@@ -123,15 +127,17 @@ public class RegistrationTest extends BaseTest {
 
         register.enterPassword("Nikita@123");
 
-        register.enterConfirmPassword("WrongPassword");
+        register.enterConfirmPassword(
+                "WrongPassword");
 
-        register.selectPrivacyPolicy();
+        register.clickPrivacyPolicy();
 
         register.clickContinue();
 
         Assert.assertTrue(
                 register.getPasswordMismatchMessage()
-                        .contains("Password confirmation"));
+                        .contains(
+                                "Password confirmation"));
     }
 
     // 5. Verify Privacy Policy warning
@@ -197,12 +203,13 @@ public class RegistrationTest extends BaseTest {
 
         register.enterConfirmPassword("Nikita@123");
 
-        register.selectPrivacyPolicy();
+        register.clickPrivacyPolicy();
 
         register.clickContinue();
 
         Assert.assertTrue(
                 register.getSuccessMessage()
-                        .contains("Your Account Has Been Created"));
+                        .contains(
+                                "Your Account Has Been Created"));
     }
 }

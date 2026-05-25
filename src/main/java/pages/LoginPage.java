@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class LoginPage {
 
     WebDriver driver;
+
     WebDriverWait wait;
 
     // Constructor
@@ -23,84 +24,85 @@ public class LoginPage {
                 Duration.ofSeconds(15));
     }
 
-    // Locators
+    // LOCATORS
 
     By myAccount =
-            By.xpath("(//span[contains(text(),'My Account')])[1]");
+            By.linkText("My Account");
 
-    By loginLink =
+    By loginOption =
             By.linkText("Login");
 
-    By email =
+    By emailField =
             By.id("input-email");
 
-    By password =
+    By passwordField =
             By.id("input-password");
 
     By loginButton =
             By.xpath("//input[@value='Login']");
 
-    By myAccountHeader =
-            By.xpath("//h2[text()='My Account']");
-
     By warningMessage =
             By.xpath("//div[contains(@class,'alert-danger')]");
 
-    // Methods
+    By myAccountText =
+            By.linkText("My Account");
+
+    // METHODS
 
     public void clickMyAccount() {
 
         wait.until(ExpectedConditions
-                .elementToBeClickable(myAccount));
+                .elementToBeClickable(
+                        myAccount));
 
-        driver.findElement(myAccount).click();
+        driver.findElement(myAccount)
+                .click();
     }
 
     public void clickLogin() {
 
         wait.until(ExpectedConditions
-                .elementToBeClickable(loginLink));
+                .elementToBeClickable(
+                        loginOption));
 
-        driver.findElement(loginLink).click();
+        driver.findElement(loginOption)
+                .click();
     }
 
-    public void enterEmail(String mail) {
+    public void enterEmail(String email) {
 
         wait.until(ExpectedConditions
-                .visibilityOfElementLocated(email));
+                .visibilityOfElementLocated(
+                        emailField));
 
-        driver.findElement(email).clear();
+        driver.findElement(emailField)
+                .clear();
 
-        driver.findElement(email).sendKeys(mail);
+        driver.findElement(emailField)
+                .sendKeys(email);
     }
 
-    public void enterPassword(String pwd) {
+    public void enterPassword(String password) {
 
-        driver.findElement(password).clear();
+        wait.until(ExpectedConditions
+                .visibilityOfElementLocated(
+                        passwordField));
 
-        driver.findElement(password).sendKeys(pwd);
+        driver.findElement(passwordField)
+                .clear();
+
+        driver.findElement(passwordField)
+                .sendKeys(password);
     }
 
     public void clickLoginButton() {
 
-        driver.findElement(loginButton).click();
-    }
+        wait.until(ExpectedConditions
+                .elementToBeClickable(
+                        loginButton));
 
-    public boolean isMyAccountDisplayed() {
-
-        try {
-
-            wait.until(ExpectedConditions
-                    .visibilityOfElementLocated(
-                            myAccountHeader));
-
-            return driver.findElement(
-                    myAccountHeader).isDisplayed();
-
-        } catch (Exception e) {
-
-            return false;
-        }
+        driver.findElement(loginButton)
+                .click();
     }
 
     public String getWarningMessage() {
@@ -110,6 +112,18 @@ public class LoginPage {
                         warningMessage));
 
         return driver.findElement(
-                warningMessage).getText();
+                warningMessage)
+                .getText();
+    }
+
+    public boolean isMyAccountDisplayed() {
+
+        wait.until(ExpectedConditions
+                .visibilityOfElementLocated(
+                        myAccountText));
+
+        return driver.findElement(
+                myAccountText)
+                .isDisplayed();
     }
 }
