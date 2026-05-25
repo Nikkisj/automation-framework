@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class LogoutPage {
 
     WebDriver driver;
+
     WebDriverWait wait;
 
     // Constructor
@@ -23,95 +24,117 @@ public class LogoutPage {
                 Duration.ofSeconds(15));
     }
 
-    // Locators
+    // LOCATORS
 
     By myAccount =
-            By.xpath("//span[text()='My Account']");
+            By.linkText("My Account");
 
     By loginOption =
             By.linkText("Login");
 
+    By emailField =
+            By.id("input-email");
+
+    By passwordField =
+            By.id("input-password");
+
+    By loginButton =
+            By.xpath("//input[@value='Login']");
+
     By logoutOption =
             By.linkText("Logout");
+
+    By logoutMessage =
+            By.xpath("//div[@id='content']/h1");
 
     By continueButton =
             By.linkText("Continue");
 
-    By logoutMessage =
-            By.xpath("//h1[contains(text(),'Account Logout')]");
+    // METHODS
 
-    By rightColumnLogin =
-            By.linkText("Login");
-
-    // Methods
-
-    // Open Login Page
-
-    public void clickMyAccount() {
+    public void login() {
 
         wait.until(ExpectedConditions
-                .elementToBeClickable(myAccount));
+                .elementToBeClickable(
+                        myAccount));
 
         driver.findElement(myAccount)
                 .click();
-    }
-
-    public void clickLogin() {
 
         wait.until(ExpectedConditions
-                .elementToBeClickable(loginOption));
+                .elementToBeClickable(
+                        loginOption));
 
         driver.findElement(loginOption)
                 .click();
-    }
 
-    // Logout
+        wait.until(ExpectedConditions
+                .visibilityOfElementLocated(
+                        emailField));
+
+        driver.findElement(emailField)
+                .clear();
+
+        driver.findElement(emailField)
+                .sendKeys(
+                        "nikitajadhav123@gmail.com");
+
+        driver.findElement(passwordField)
+                .clear();
+
+        driver.findElement(passwordField)
+                .sendKeys("Nikita@123");
+
+        driver.findElement(loginButton)
+                .click();
+    }
 
     public void clickLogout() {
 
         wait.until(ExpectedConditions
-                .elementToBeClickable(myAccount));
+                .elementToBeClickable(
+                        myAccount));
 
         driver.findElement(myAccount)
                 .click();
 
         wait.until(ExpectedConditions
-                .elementToBeClickable(logoutOption));
+                .elementToBeClickable(
+                        logoutOption));
 
         driver.findElement(logoutOption)
                 .click();
     }
 
-    // Continue Button
-
     public void clickContinue() {
 
         wait.until(ExpectedConditions
-                .elementToBeClickable(continueButton));
+                .elementToBeClickable(
+                        continueButton));
 
         driver.findElement(continueButton)
                 .click();
     }
 
-    // Verify Logout Message
-
     public String getLogoutMessage() {
 
         wait.until(ExpectedConditions
-                .visibilityOfElementLocated(logoutMessage));
+                .visibilityOfElementLocated(
+                        logoutMessage));
 
-        return driver.findElement(logoutMessage)
+        return driver.findElement(
+                logoutMessage)
                 .getText();
     }
-
-    // Verify Login Option Visible
 
     public boolean isLoginOptionDisplayed() {
 
         wait.until(ExpectedConditions
-                .visibilityOfElementLocated(rightColumnLogin));
+                .visibilityOfElementLocated(
+                        loginOption));
 
-        return driver.findElement(rightColumnLogin)
+        return driver.findElement(
+                loginOption)
                 .isDisplayed();
     }
 }
